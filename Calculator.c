@@ -65,7 +65,7 @@ int function_to_calucute_the_expression(char *expression){
         
     }
     
-    while(op_index != -1){
+    while(op_index != -1){ 
         int b = numbers[num_index--];
         int a = numbers[num_index--];
         char op = operators[op_index--];
