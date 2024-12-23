@@ -77,7 +77,7 @@ int function_to_calucute_the_expression(char *expression){
 int main() {
     char expression[100];
     
-    printf("Enter the expression to caluclate=>>");
+    printf("Enter the expression to caluclate ==> ");
     scanf("%s",expression);
     printf("Your entered expression is ==> %s\n" , expression);
     int result = function_to_calucute_the_expression(expression);
@@ -85,7 +85,7 @@ int main() {
         printf("Error: in evaluating the expression\n");
     }
     else{
-        printf("The result after evaluating the expression %d\n", result);
+        printf("The result after evaluating the expression ==>  %d\n", result);
     }
     return 0;
 }
