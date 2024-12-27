@@ -36,23 +36,37 @@ bool check_is_Id_unique(int id) {
     return true;
 }
 
+int getInteger(const char *prompt) {
+    int value;
+    printf("%s", prompt);
+    if (scanf("%d", &value) != 1) {
+        printf("Error: Invalid input. Only integers are allowed.\n");
+        exit(1);
+    }
+    return value;
+}
+
+void getString(const char *prompt, char *output, int maxLength) {
+    printf("%s", prompt);
+    getchar(); // Consume any leftover newline character from previous input
+    if (fgets(output, maxLength, stdin) == NULL) {
+        printf("Error: Invalid input.\n");
+        exit(1);
+    }
+    output[strcspn(output, "\n")] = 0; // Remove trailing newline
+}
+
 void addUser() {
     User user;
-    printf("Enter User ID: ");
-    scanf("%d", &user.id);
+    user.id = getInteger("Enter User ID: ");
 
     if (!check_is_Id_unique(user.id)) {
         printf("Error: User ID already exists.\n");
         return;
     }
 
-    printf("Enter Name (with spaces): ");
-    getchar(); 
-    fgets(user.name, MAX_LENGTH_OF_NAME, stdin);
-    user.name[strcspn(user.name, "\n")] = 0; 
-
-    printf("Enter Age: ");
-    scanf("%d", &user.age);
+    getString("Enter Name (with spaces): ", user.name, MAX_LENGTH_OF_NAME);
+    user.age = getInteger("Enter Age: ");
 
     FILE *file = fopen(USER_FILE_NAME, "a");
     if (!file) {
@@ -87,9 +101,7 @@ void displayUsers() {
 }
 
 void updateUser() {
-    int id;
-    printf("Enter User ID to update: ");
-    scanf("%d", &id);
+    int id = getInteger("Enter User ID to update: ");
 
     FILE *file = fopen(USER_FILE_NAME, "r");
     if (!file) {
@@ -109,12 +121,8 @@ void updateUser() {
     while (fscanf(file, "%d,%49[^,],%d\n", &user.id, user.name, &user.age) == 3) {
         if (user.id == id) {
             found = true;
-            printf("Enter new Name (with spaces): ");
-            getchar(); 
-            fgets(user.name, MAX_LENGTH_OF_NAME, stdin);
-            user.name[strcspn(user.name, "\n")] = 0; 
-            printf("Enter new Age: ");
-            scanf("%d", &user.age);
+            getString("Enter new Name (with spaces): ", user.name, MAX_LENGTH_OF_NAME);
+            user.age = getInteger("Enter new Age: ");
         }
         fprintf(tempFile, "%d,%s,%d\n", user.id, user.name, user.age);
     }
@@ -133,9 +141,7 @@ void updateUser() {
 }
 
 void deleteUser() {
-    int id;
-    printf("Enter User ID to delete: ");
-    scanf("%d", &id);
+    int id = getInteger("Enter User ID to delete: ");
 
     FILE *file = fopen(USER_FILE_NAME, "r");
     if (!file) {
@@ -177,16 +183,14 @@ int main() {
     function_to_create_file_if_not_exists();
 
     int choice;
-    while(1) {
+    while (1) {
         printf("\n1. Add User\n");
         printf("2. Display Users\n");
         printf("3. Update User\n");
         printf("4. Delete User\n");
         printf("5. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-       
+        choice = getInteger("");
 
         switch (choice) {
             case 1:
@@ -206,9 +210,9 @@ int main() {
                 exit(0);
             default:
                 printf("Invalid choice. Please try again.\n");
-                exit(0);
+                exit(1);
         }
-    } 
+    }
 
     return 0;
 }
