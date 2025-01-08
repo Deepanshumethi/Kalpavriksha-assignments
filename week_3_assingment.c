@@ -9,6 +9,21 @@
 int isVowel(char c) {
     return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
 }
+int countLength(char *str){
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+}
+int copyString(char *str1, char *str2){
+    int iterator = 0;
+    while(str2[iterator] != '\0'){
+        str1[iterator] = str2[iterator];
+        iterator++;
+    }
+    str1[iterator] = '\0';
+}
 
 int main() {
    int rows, cols;
@@ -46,8 +61,8 @@ int main() {
             if (isVowel(names[i][j][0])) {
                 vowelCount++;
             }
-            if (strlen(names[i][j]) > strlen(longestName)) {
-                strcpy(longestName, names[i][j]);
+            if (countLength(names[i][j]) > countLength(longestName)) {
+                copyString(longestName, names[i][j]);
             }
         }
     }
