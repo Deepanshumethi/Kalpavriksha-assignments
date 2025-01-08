@@ -38,7 +38,7 @@ int main()
    char largest[100] ;
        char second_largest[100];
        copy_string(largest, string_sentence_length[0]);
-    copy_string(second_largest,"");
+       copy_string(second_largest,"");
         
    for(int i=0;i<word;i++){
   
@@ -47,10 +47,16 @@ int main()
            copy_string(second_largest,largest);
            copy_string(largest,string_sentence_length[i]);
        }
-       if(stringLength(largest)>stringLength(string_sentence_length[i]) && 
-       stringLength(second_largest)<stringLength(string_sentence_length[i]) ){
-           copy_string(second_largest,string_sentence_length[i]);
-       }
+      if(stringLength(largest)>stringLength(string_sentence_length[i]) && 
+      stringLength(second_largest)<stringLength(string_sentence_length[i]) ){
+          copy_string(second_largest,string_sentence_length[i]);
+      }
+      if(stringLength(second_largest)==0 && stringLength(string_sentence_length[i])<=stringLength(largest)){
+          copy_string(second_largest,string_sentence_length[i]);
+      }
+      if(stringLength(second_largest)==stringLength(largest) && stringLength(string_sentence_length[i])<stringLength(second_largest)){
+          copy_string(second_largest,string_sentence_length[i]);
+      }
     
        
    }
