@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<stdlib.g>
 
 void swap(int*a,int*b){
     int temp = *a;
@@ -11,7 +12,10 @@ int main()
     int n;
     scanf("%d",&n);
     
-    int arr[n][n];
+    int **arr = malloc(n*sizeof(int *));
+    for(int i=0;i<n;i++){
+        arr[i] = malloc(n*sizeof(int));
+    }
     
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
