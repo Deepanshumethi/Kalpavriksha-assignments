@@ -1,0 +1,212 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct node{
+    int data ;
+    int value;
+    struct node*next;
+}node;
+
+
+typedef struct map{
+        node* group;
+}map;
+
+void insert(int key, int value, map** array){
+    int modulus = key%10;
+
+    node* newNode = malloc(sizeof(node));
+    newNode->data = key;
+    newNode->value = value;
+    newNode->next = NULL;
+    node*temp = (*array)[modulus].group;
+    
+    if(temp == NULL){
+        (*array)[modulus].group = newNode;
+        return;
+    }
+    
+     node* check = (*array)[modulus].group;
+     while(check != NULL){
+         if(check->data == key){
+             check->value = value;
+             return;
+         }
+         check = check->next;
+     }
+    
+    while(temp ->next != NULL){
+     temp = temp->next;
+    }
+    temp->next = newNode;
+    
+}
+
+int search(int key, map**array){
+    int modulus = key%10;
+    node* temp = (*array)[modulus].group;
+    
+    while(temp!= NULL){
+        if(temp->data == key){
+            return temp->value;
+        }
+        temp = temp->next;
+    }
+    return 0;
+}
+
+int delete(int key , map**array){
+    int modulus = key%10;
+    
+    
+    
+    node* temp = (*array)[modulus].group;
+    node* prev = NULL;
+    while (temp != NULL) {
+        if (temp->data == key) {
+            if (prev == NULL) {
+                (*array)[modulus].group = temp->next;
+            } else {
+                prev->next = temp->next;
+            }
+            return 1; 
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+    return 0;
+}
+
+void printList(node* list, int*empty, int index){
+    if(list == NULL){
+        return;
+    }
+    printf("Index %d: ",index);
+    int first = 0;
+    while(list != NULL){
+        if(first ==0){
+             printf("(%d , %d)", list->data, list->value);
+             first = 1;
+        }
+        else{
+             printf(" -> (%d , %d)", list->data, list->value);
+        }
+       
+        list = list->next;
+        (*empty) = 1;
+    }
+    if((*empty) ==1){
+        printf("\n");
+    }
+    
+}
+
+void print(map*array){
+    int empty = 0;
+    for(int i=0;i<10;i++){
+        printList(array[i].group , &empty, i);
+    }
+    if(empty == 0){
+        printf("Map is empty\n");
+    }
+}
+
+int main(){
+    map *array = malloc(10* sizeof(map));
+    for (int i = 0; i < 10; i++) {
+        array[i].group = NULL;
+    }
+    
+    printf(":- HASH MAP :-\n");
+    printf("Enter 1 for insert in Hash Map\n");
+    printf("Enter 2 for search in Hash Map\n");
+    printf("Enter 3 for deletion in Hash Map\n");
+    printf("Enter 4 to print the Hash Map\n");
+    printf("Enter 5 to exit.\n");
+    
+    
+    int run  =0;
+    while(run == 0){
+        int choice;
+        printf("\nEnter your choice: ");
+        scanf("%d",&choice);
+        
+        switch(choice){
+            
+            case 1:{
+                int key;
+                printf("Enter key:");
+                scanf("%d",&key);
+                if(key<0){
+                    printf("Ente a positive or valid key\n");
+                    break;
+                }
+                int value;
+                printf("Enter value:");
+                scanf("%d",&value);
+                if(value<0){
+                    printf("Ente a positive or valid value\n");
+                    break;
+                }
+                
+                insert(key,value,&array);
+                
+                break;
+            }
+            case 2:{
+                int key;
+                 printf("Enter key:");
+                scanf("%d",&key);
+                if(key<0){
+                    printf("Ente a positive or valid key\n");
+                    break;
+                }
+                int found = search(key,&array);
+                if(found != 0){
+                    printf("%d key - value %d\n",key,found);
+                }
+                else{
+                    printf("%d is Not Found\n",key);
+                }
+                
+                
+                break;
+            }
+            case 3:{
+                int key;
+                printf("Enter key:");
+                scanf("%d",&key);
+                if(key<0){
+                    printf("Ente a positive or valid key\n");
+                    break;
+                }
+                int del =delete(key,&array);
+                if(del != 0){
+                printf("%d key is deleted\n",key);
+                }
+                else{
+                    printf("%d key is Not found\n",key);
+                }
+                break;
+            }
+            
+            case 4:{
+                print(array);
+                break;
+            }
+            
+            case 5:{
+                printf("Exiting program...");
+                run =1;
+                break;
+            }
+            
+            default:{
+                printf("Enter valid\n");
+                break;
+            }
+        }
+    }
+    
+    return 0;
+}
