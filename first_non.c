@@ -14,7 +14,7 @@ int main()
     
     map array[strlen(str)];
     int c=0;
-    
+    char ch = str[0];
     for(int i=0;i<strlen(str);i++){
         int p=0;
         for(int j=0;j<c;j++){
@@ -26,10 +26,17 @@ int main()
             }
         }
         if(p==0){
+            for(int j=0;j<c;j++){
+                if(array[j].ch==ch){
+                    if(array[j].k>1){
+                        ch = str[i];
+                    }
+                }
+            }
              array[c].ch = str[i];
                 array[c].k = 1;
                 c++;
-                printf("%c",str[i]);
+                printf("%c",ch);
         }
     }
 
